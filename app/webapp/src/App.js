@@ -3,13 +3,13 @@ import Button from "@mui/material/Button";
 
 function App() {
   const buttonClicked = async () => {
-    const response = await fetch("/express_backend");
+    const response = await fetch("/open_door");
 
     if (response.status !== 200) {
-      throw Error(response.message);
+      alert("Error");
+    } else {
+      alert("Opening door");
     }
-
-    return response;
   };
 
   return (
