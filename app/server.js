@@ -13,7 +13,7 @@ app.use(express.json());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'webapp/build')));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 const raspberryPiSecret = process.env.RASPBERRY_PI_SECRET;
 
 if (raspberryPiSecret === undefined) {

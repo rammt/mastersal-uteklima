@@ -16,8 +16,7 @@ The API and React app reside in the same directory.
 ### Starting the app
 
 ```
-cd app webapp
-npm install && npm run build && cd ..
+cd app/webapp && npm install && npm run build && cd ..
 && npm install && npm start
 
 ```
