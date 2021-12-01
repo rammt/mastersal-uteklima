@@ -33,7 +33,8 @@ cd raspberry_pi && npm install && npm start
 #### With Docker
 ´´´
 docker build . -t node-express-app
-docker run -d node-express-app
+docker run -p 4000:4000 -d node-express-app
+lt --port 4000
 ´´´
 
 ## Deployment to Heroku
