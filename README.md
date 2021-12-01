@@ -11,17 +11,14 @@ Express and Vipps comminucates. Vipps uses the static Heroku URL.
 
 ## Getting started
 
-### Starting the server
+The API and React app reside in the same directory.
+
+### Starting the app
 
 ```
-cd app && npm start
-
-```
-
-### Starting the React app
-
-```
-cd app/webapp && npm start
+cd app webapp
+npm install && npm run build && cd ..
+&& npm install && npm start
 
 ```
 
@@ -30,6 +27,22 @@ cd app/webapp && npm start
 This should be run after the server is started.
 
 ```
-cd raspberry_pi && npm start
+cd raspberry_pi && npm install && npm start
 
+```
+
+#### With Docker
+´´´
+docker build . -t node-express-app
+docker run -d node-express-app
+´´´
+
+## Deployment to Heroku
+```
+git subtree push --prefix app heroku main
+```
+
+Set `.env` variables
+```
+heroku config:set ENV_VAR=value
 ```

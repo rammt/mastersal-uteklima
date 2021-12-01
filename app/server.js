@@ -1,11 +1,17 @@
 import dotenv from "dotenv";
 import express from "express";
 import fetch from "node-fetch";
+import path from "path"
 
 dotenv.config();
 
 const app = express();
+const __dirname = path.resolve()
+
 app.use(express.json());
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'webapp/build')));
 
 const port = process.env.PORT || 5000;
 const raspberryPiSecret = process.env.RASPBERRY_PI_SECRET;
@@ -16,6 +22,10 @@ if (raspberryPiSecret === undefined) {
 }
 
 let raspberryPiUrl = "";
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/webapp/build/index.html'));
+});
 
 app.get("/open_door", async (req, res) => {
   const data = req.body;
