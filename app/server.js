@@ -23,10 +23,6 @@ if (raspberryPiSecret === undefined) {
 
 let raspberryPiUrl = "";
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/webapp/build/index.html'));
-});
-
 app.get("/open_door", async (req, res) => {
   const data = req.body;
 
@@ -80,6 +76,10 @@ app.post("/update_raspberry_pi_url", (req, res) => {
   raspberryPiUrl = data.url;
   console.log(raspberryPiUrl);
   res.json({ message: "URL updated!" });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/webapp/build/index.html'));
 });
 
 app.listen(port, () => {
