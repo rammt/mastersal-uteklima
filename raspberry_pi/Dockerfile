@@ -1,3 +1,4 @@
+FROM python:3.9
 FROM node:16
 
 WORKDIR /usr/src/app

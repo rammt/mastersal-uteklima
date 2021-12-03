@@ -34,8 +34,14 @@ app.post("/open_door", (req, res) => {
     return;
   }
 
-  console.log("Open door OK");
-  res.json({ message: "Opening door..." });
+  const success = openDoorScript();
+
+  if (success) {
+    console.log("Open door OK");
+    res.json({ message: "Opening door..." });
+  } else {
+    res.status(500).json({ message: "Error" });
+  }
 });
 
 // Called from the Docker host only, meaning it is not exposed so we don't need secret key checks
@@ -73,6 +79,22 @@ app.post("/open_door", (req, res) => {
 //     return false;
 //   }
 // };
+
+const openDoorScript = () => {
+  const script = spawn(("python3", ["gpio_controller.py"]));
+  script.stdout.on("data", (data) => {
+    console.log(data)
+    return true;
+  });
+
+  script.stderr.on("data", (data) => {
+    console.log(data)
+    return false;
+  });
+
+  console.log("What");
+  return false;
+}
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
