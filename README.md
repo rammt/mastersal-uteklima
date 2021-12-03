@@ -30,12 +30,14 @@ cd raspberry_pi && npm install && npm start
 
 ```
 
-#### With Docker
+#### Starting the Raspberry Pi client with Docker (recommended)
 ´´´
 docker build . -t node-express-app
-docker run -p 4000:4000 -d node-express-app
+docker run -p 4000:4000 -p 4001:4001 -d node-express-app
 lt --port 4000
 ´´´
+
+The 4001 port is used to receive the GET call to `/new_url`.
 
 ## Deployment to Heroku
 ```

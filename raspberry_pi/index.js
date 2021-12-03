@@ -6,12 +6,17 @@ import fetch from "node-fetch";
 dotenv.config();
 
 const app = express();
-app.use(express.json());
+const adminApp = express();
 
-const port = process.env.PORT || 4000;
+app.use(express.json());
+adminApp.use(express.json());
+
+const port = 4000;
+const adminPort = 4001;
 const raspberryPiSecret = process.env.RASPBERRY_PI_SECRET;
 const backendUrl = process.env.BACKEND_URL;
-const hourlyInterval = 6;
+
+let raspberryPiUrl;
 
 if (raspberryPiSecret === undefined || backendUrl === undefined) {
   console.log(raspberryPiSecret);
@@ -29,30 +34,43 @@ app.post("/open_door", (req, res) => {
     return;
   }
 
-  console.log("nice");
-
+  console.log("Open door OK");
   res.json({ message: "Opening door..." });
 });
 
-setInterval(() => getNewUrlAndSendIt(), hourlyInterval * 1000 * 3600); // Calls every hourlyInterval hour
+// Called from the Docker host only, meaning it is not exposed so we don't need secret key checks
+adminApp.post("/new_url", async (req, res) => {
+  if (req.body.url === undefined) {
+    res.status(500).json({ message: "URL missing" });
+    return;
+  }
+  raspberryPiUrl = req.body.new_url;
+  const success = await sendNewUrl();
+  if (success) {
+    res.json({ message: OK })
+  } else {
+    res.status(500).json({ message: "Error" })
+  }
+})
 
-const getNewUrlAndSendIt = async () => {
-  const url = "http://localhost:4000"; // TODO read the url from localtunnel/ngork
-
+const sendNewUrl = async () => {
   try {
     const response = await fetch(backendUrl + "/update_raspberry_pi_url", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ secret: raspberryPiSecret, url: url }),
+      body: JSON.stringify({ secret: raspberryPiSecret, url: raspberryPiUrl }),
     });
 
     const responseData = await response.json();
 
     if (response.status !== 200) {
       console.log(responseData);
+      return false;
     }
+    return true;
   } catch (err) {
     console.log(err);
+    return false;
   }
 };
 
@@ -60,4 +78,7 @@ app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
 
-getNewUrlAndSendIt(); // Call this immediately on startup
+
+adminApp.listen(adminPort, () => {
+  console.log(`Admin app listening at http://localhost:${adminPort}`);
+});
