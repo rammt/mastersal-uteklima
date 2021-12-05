@@ -37,7 +37,7 @@ docker run -p 4000:4000 -p 4001:4001 -d node-express-app
 lt --port 4000
 ´´´
 
-The 4001 port is used to receive the GET call to `/new_url`.
+The 4001 port is used to communicate from the Docker host to the Docker container by receiving a GET call to `localhost:4001/new_url` and is not exposed to the Internet.
 
 ## Deployment to Heroku
 ```
