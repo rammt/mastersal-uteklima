@@ -1,7 +1,6 @@
 FROM python:3.7
 
 RUN pip3 install --upgrade pip
-RUN apt-get install -y rpi.gpio
 RUN apt-get install -y python3-rpi.gpio
 
 # RUN pip3 install RPi.GPIO
