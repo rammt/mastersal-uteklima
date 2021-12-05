@@ -1,7 +1,8 @@
 // const express = require("express");
 import dotenv from "dotenv";
 import express from "express";
-import { spawn } from "child_process";
+import * as childProcess from "child_process";
+import * as util from "util";
 // import fetch from "node-fetch";
 
 dotenv.config();
@@ -82,19 +83,22 @@ app.post("/open_door", (req, res) => {
 //   }
 // };
 
-const openDoorScript = () => {
-  const script = spawn(("python3", ["gpio_controller.py"]));
-  script.stdout.on("data", (data) => {
-    console.log(data)
+const openDoorScript = async () => {
+  const exec = util.promisify(childProcess.exec);
+
+  const { stdout, stderr } = await exec("python3 gpio_controller.py");
+
+  if (stdout) {
+    console.log('stdout:', stdout);
     return true;
-  });
-
-  script.stderr.on("data", (data) => {
-    console.log(data)
+  }
+  if (stderr) {
+    console.error('stderr:', stderr);
     return false;
-  });
+  }
 
-  console.log("What");
+  console.log('stdout:', stdout);
+  console.error('stderr:', stderr);
   return false;
 }
 
