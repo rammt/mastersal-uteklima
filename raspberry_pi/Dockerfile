@@ -1,5 +1,5 @@
 FROM python:3.9
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir RPi.GPIO
+RUN pip3 install --no-cache-dir --upgrade pip3 && pip3 install --no-cache-dir RPi.GPIO
 
 FROM node:16
 
