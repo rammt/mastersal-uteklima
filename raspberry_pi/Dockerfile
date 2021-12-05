@@ -1,6 +1,6 @@
 FROM arm32v7/python:2.7.13-jessie
-RUN pip install --no-cache-dir rpi.gpio
 COPY gpio_controller.py ./
+RUN pip install --no-cache-dir rpi.gpio
 
 FROM node:16
 
