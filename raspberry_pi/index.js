@@ -86,7 +86,7 @@ app.post("/open_door", (req, res) => {
 const openDoorScript = async () => {
   const exec = util.promisify(childProcess.exec);
 
-  const { stdout, stderr } = await exec("python3 gpio_controller.py");
+  const { stdout, stderr } = await exec("python gpio_controller.py");
 
   if (stdout) {
     console.log('stdout:', stdout);
