@@ -1,9 +1,6 @@
-FROM python:3.7
-
-RUN pip3 install --upgrade pip
-RUN apt-get install -y python3-rpi.gpio
-
-# RUN pip3 install RPi.GPIO
+FROM arm32v7/python:2.7.13-jessie
+COPY gpio_contoller.py ./
+RUN pip install --no-cache-dir rpi.gpio
 
 FROM node:16
 
