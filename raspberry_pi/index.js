@@ -1,6 +1,7 @@
 // const express = require("express");
 import dotenv from "dotenv";
 import express from "express";
+import { spawn } from "child_process";
 // import fetch from "node-fetch";
 
 dotenv.config();
@@ -14,13 +15,14 @@ app.use(express.json());
 const port = 4000;
 // const adminPort = 4001;
 const raspberryPiSecret = process.env.RASPBERRY_PI_SECRET;
-const backendUrl = process.env.BACKEND_URL;
+// const backendUrl = process.env.BACKEND_URL;
 
 let raspberryPiUrl;
 
-if (raspberryPiSecret === undefined || backendUrl === undefined) {
+if (raspberryPiSecret === undefined) {
+  // if (raspberryPiSecret === undefined || backendUrl === undefined) {
   console.log(raspberryPiSecret);
-  console.log(backendUrl);
+  // console.log(backendUrl);
   throw new Error(".env variables missing");
 }
 
