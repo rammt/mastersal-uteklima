@@ -21,7 +21,7 @@ if (raspberryPiSecret === undefined) {
   throw new Error(".env variables missing");
 }
 
-const raspberryPiUrl = "https://pretty-mastersal-50.loca.lt";
+const raspberryPiUrl = "https://pretty-mastersal-60.loca.lt";
 
 app.get("/open_door", async (req, res) => {
   const data = req.body;

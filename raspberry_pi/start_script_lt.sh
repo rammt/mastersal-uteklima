@@ -1,3 +1,3 @@
 #!/bin/sh
 
-lt -s pretty-mastersal-50 --port 4000
+lt -s pretty-mastersal-60 --port 4000
