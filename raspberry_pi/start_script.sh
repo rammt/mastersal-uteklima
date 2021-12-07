@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # docker stop $(docker ps -q --filter ancestor=rasp-app)
 # docker run -p 4000:4000 -d rasp-app
