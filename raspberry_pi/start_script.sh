@@ -1,5 +1,5 @@
 #!/bin/sh
 
-nphup npm start &
+nohup npm start &
 nohup lt -s pretty-mastersal-50 --port 4000 &
 exit
