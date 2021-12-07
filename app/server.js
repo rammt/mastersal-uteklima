@@ -21,7 +21,7 @@ if (raspberryPiSecret === undefined) {
   throw new Error(".env variables missing");
 }
 
-let raspberryPiUrl = "";
+const raspberryPiUrl = "https://pretty-mastersal-60.loca.lt";
 
 app.get("/open_door", async (req, res) => {
   const data = req.body;
@@ -64,19 +64,6 @@ const sendOpenSignal = async () => {
     return false;
   }
 };
-
-app.post("/update_raspberry_pi_url", (req, res) => {
-  const data = req.body;
-
-  if (data.secret !== raspberryPiSecret) {
-    res.status(500).json({ error: "Invalid secret" });
-    return;
-  }
-
-  raspberryPiUrl = data.url;
-  console.log(raspberryPiUrl);
-  res.json({ message: "URL updated!" });
-});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/webapp/build/index.html'));
