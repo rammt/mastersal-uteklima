@@ -28,8 +28,6 @@ function App() {
 
   const buttonClicked = async () => {
     setIsLoading(true);
-    await new Promise(_ => setTimeout(_, 1500));
-
     const response = await fetch("/open_door");
     setIsLoading(false);
 
