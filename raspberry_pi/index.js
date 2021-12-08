@@ -12,8 +12,6 @@ app.use(express.json());
 const port = 4000;
 const raspberryPiSecret = process.env.RASPBERRY_PI_SECRET;
 
-let raspberryPiUrl;
-
 if (raspberryPiSecret === undefined) {
   console.log(raspberryPiSecret);
   throw new Error(".env variables missing");
@@ -32,7 +30,6 @@ app.post("/open_door", (req, res) => {
   const success = openDoorScript();
 
   if (success) {
-    console.log("Open door OK");
     res.json({ message: "Opening door..." });
   } else {
     res.status(500).json({ message: "Error" });
@@ -48,12 +45,7 @@ const openDoorScript = async () => {
     console.log('stdout:', stdout);
     return true;
   }
-  if (stderr) {
-    console.error('stderr:', stderr);
-    return false;
-  }
 
-  console.log('stdout:', stdout);
   console.error('stderr:', stderr);
   return false;
 }
