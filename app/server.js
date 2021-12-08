@@ -56,8 +56,8 @@ const sendOpenSignal = async () => {
 
     if (response.status !== 200) {
       console.log(responseData);
+      return false;
     }
-    console.log(responseData);
     return true;
   } catch (err) {
     console.log(err);
@@ -66,7 +66,7 @@ const sendOpenSignal = async () => {
 };
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/webapp/build/index.html'));
+  res.sendFile(path.join(__dirname + '/webapp/build/index.html'));
 });
 
 app.listen(port, () => {
