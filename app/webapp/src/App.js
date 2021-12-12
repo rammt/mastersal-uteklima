@@ -4,11 +4,11 @@ import { Button, Snackbar, Alert, CircularProgress, Box } from "@mui/material";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarContent, setSnackbarContent] = useState("");
   const [doorCountdownValue, setDoorCountdownValue] = useState(0);
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+    setSnackbarContent("");
   }
 
   const startDoorCountdown = () => {
@@ -29,13 +29,15 @@ function App() {
   const buttonClicked = async () => {
     setIsLoading(true);
     const response = await fetch("/open_door");
-    setIsLoading(false);
 
-    if (response.status !== 200) {
-      setSnackbarOpen(true);
-    } else {
+    if (response.status === 200) {
       startDoorCountdown();
+    } else {
+      // Check whether the Raspberry Pi is offline or if it is another error
+      const raspPiResponse = await fetch("/raspberry_pi_health_check");
+      setSnackbarContent(raspPiResponse.status !== 200 ? "Raspberry Pien er offline" : "Buu! Noe gikk galt");
     }
+    setIsLoading(false);
   };
 
   const CircularProgressWithLabel = () => {
@@ -74,11 +76,11 @@ function App() {
           <CircularProgress style={{ "visibility": isLoading ? "visible" : "hidden" }} />
         </div>}
       <Snackbar
-        open={snackbarOpen}
+        open={snackbarContent.length}
         onClose={handleSnackbarClose}
         autoHideDuration={6000}
       >
-        <Alert severity="error">Buu! Noe gikk galt (sikkert Kruge sin feil)</Alert>
+        <Alert severity="error">{snackbarContent}</Alert>
       </Snackbar>
     </div>
   );

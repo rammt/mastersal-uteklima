@@ -23,6 +23,21 @@ if (raspberryPiSecret === undefined) {
 
 const raspberryPiUrl = "https://pretty-mastersal-60.loca.lt";
 
+app.get("/raspberry_pi_health_check", async (req, res) => {
+  try {
+    const response = await fetch(raspberryPiUrl);
+
+    if (response.status === 200) {
+      res.json({ message: "OK" });
+    } else {
+      res.status(500).json({ message: "Raspberry Pi offline" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error" });
+  }
+})
+
 app.get("/open_door", async (req, res) => {
   const data = req.body;
 
